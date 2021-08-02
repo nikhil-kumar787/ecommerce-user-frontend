@@ -9,6 +9,7 @@ import {
   MaterialButton,
   DropdownMenu,
 } from "../MaterialUI";
+import { Link } from "react-router-dom";
 
 
 const Header = (props) => {
@@ -51,7 +52,10 @@ const Header = (props) => {
           <DropdownMenu
             menu={
               <a className="loginButton" onClick={() => setLoginModal(true)}>
+                <Link to='login' style={{ color: "#fff" }}>
                 Hello,SignIn
+                </Link>
+                
               </a>
             }
             menus={[
@@ -62,6 +66,7 @@ const Header = (props) => {
               { label: "Your Prime Membership", href: "", icon: null },
               { label: "Your Prime Video ", href: "", icon: null },
             ]}
+            
             firstMenu={
               <div className="firstmenu">
                 <span>New Customer?</span>
