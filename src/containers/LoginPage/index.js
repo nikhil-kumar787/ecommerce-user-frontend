@@ -36,14 +36,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LoginPage({props}) {
+export default function LoginPage({history}) {
   const classes = useStyles();
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState("");
-  const history=useHistory()
+  const [loading, setLoading] = useState(false);
+  // const history=useHistory()
   
   const dispatch = useDispatch();
 
@@ -54,14 +54,15 @@ export default function LoginPage({props}) {
   
    console.log(auth)
 
-  // useEffect(() => {
-  //     if (user) {
-  //         history.push('/')
-  //     }
-  // }, [history, user])
+  useEffect(() => {
+      if (auth.authenticate) {
+          history.push('/')
+      }
+  }, [history, auth.authenticate])
 
   const submitHandler = async (e) => {
       e.preventDefault();
+      setLoading(true)
 
       dispatch(login({email, password}));
   }
@@ -100,15 +101,11 @@ export default function LoginPage({props}) {
                 variant="contained"
                 color="primary"
                 onClick={submitHandler}
+                disabled={auth.loading}
               >
-                {auth.loading && <Spinner
-                                as="span"
-                                animation="border"
-                                size="sm"
-                                role="status"
-                                aria-hidden="true"
-                            />}
-                Continue
+               {auth.loading && <CircularProgress size={30} />}
+                                    {!auth.loading && 'Continue'}
+                
               </Button>
             </form>
           </Paper>
